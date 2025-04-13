@@ -6,10 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <link rel="stylesheet" href="mobile.css"/>
   </head>
   <body>
+    <header>
+      <h1>Library</h1>
+      <button class="add-btn">Add book</button>
+    </header>
+    <div class="library-container"></div>
 
+    <dialog>
+      <form action="" method="post">
+        <div>
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" />
+        </div>
+        <div>
+          <label for="author">Author:</label>
+          <input type="text" id="author" name="author" />
+        </div>
+        <div>
+          <label for="pages">Number of pages:</label>
+          <input type="number" id="pages" name="pages" />
+        </div>
+        <div>
+          <label for="read">Read status:</label>
+          <input type="checkbox" id="read" name="read" />
+        </div>
+        <div>
+          <button class="submit-btn" type="button">Add book</button>
+          <button class="cancel-btn" type="button">Cancel</button>
+        </div>
+      </form>
+    </dialog>
     <script src="index.js"></script>
   </body>
 </html>
