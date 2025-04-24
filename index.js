@@ -4,20 +4,73 @@ const dialog = document.querySelector("dialog");
 const form = document.querySelector("form");
 const cancelBtn = document.querySelector(".cancel-btn");
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.id = crypto.randomUUID();
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.id = crypto.randomUUID();
+  }
+
+  toggleRead() {
+    this.read = !this.read;
+  }
 }
 
-let library = [];
+class Library {
+  constructor() {
+    this.books = [];
+  }
 
-function addBookToLibrary(title, author, pages, read) {
-  const newBook = new Book(title, author, pages, read);
-  library.push(newBook);
+  addBook(title, author, pages, read) {
+    const newBook = new Book(title, author, pages, read);
+    this.books.push(newBook);
+    this.renderBooks();
+  }
+
+  removeBook(id) {
+    this.books = this.books.filter((book) => book.id !== id);
+    this.renderBooks();
+  }
+
+  renderBooks() {
+    const container = document.querySelector(".library-container");
+    container.innerHTML = "";
+
+    this.books.forEach((book) => {
+      const card = document.createElement("div");
+      card.className = "book-card";
+      card.innerHTML = `
+    <img src="src/default.jpeg">
+    <h3>${book.title}</h3>
+    <p>Author: ${book.author} </p>
+    <p>Pages: ${book.pages} </p>
+    <p>Read: ${book.read ? "Yes" : "No"} </p>
+    `;
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Remove book";
+      deleteBtn.addEventListener("click", () => this.removeBook(book.id));
+
+      const toggleReadBtn = document.createElement("button");
+      toggleReadBtn.textContent = book.read ? "Not read" : "Mark as read";
+      toggleReadBtn.addEventListener("click", () => {
+        book.toggleRead();
+        this.renderBooks();
+      });
+
+      card.append(deleteBtn, toggleReadBtn);
+
+      container.appendChild(card);
+    });
+  }
 }
+
+const myLibrary = new Library();
+
+myLibrary.addBook("1984", "George Orwell", 328, false);
+myLibrary.addBook("The Hobbit", "J.R.R. Tolkien", 295, true);
 
 addBtn.addEventListener("click", () => {
   dialog.showModal();
@@ -37,54 +90,12 @@ document.querySelector(".submit-btn").addEventListener("click", (e) => {
   const read = document.getElementById("read").checked;
 
   if (title && author && pages) {
-    addBookToLibrary(title, author, pages, read);
-    renderBooks();
+    myLibrary.addBook(title, author, pages, read);
+    myLibrary.renderBooks();
 
-    form.reset(); // Очистка формы
+    form.reset();
     dialog.close();
   } else {
     alert("Заполните все поля");
   }
 });
-
-function renderBooks() {
-  container.innerHTML = "";
-
-  library.forEach((book) => {
-    const card = document.createElement("div");
-    const deleteBtn = document.createElement("button");
-    const toggleReadBtn = document.createElement("button");
-
-    card.className = "book-card";
-    card.innerHTML = `
-    <img src="src/default.jpeg">
-    <h3>${book.title}</h3>
-    <p>Author: ${book.author} </p>
-    <p>Pages: ${book.pages} </p>
-    <p>Read: ${book.read ? "Yes" : "No"} </p>
-    `;
-    deleteBtn.textContent = "Remove book";
-    deleteBtn.dataset.id = book.id;
-    toggleReadBtn.textContent = book.read ? "Not read" : "Mark as read";
-    toggleReadBtn.dataset.id = book.id;
-
-    deleteBtn.addEventListener("click", () => {
-      library = library.filter((b) => b.id !== book.id);
-      renderBooks();
-    });
-
-    toggleReadBtn.addEventListener("click", () => {
-      book.read = !book.read;
-      renderBooks();
-    });
-
-    card.append(deleteBtn, toggleReadBtn);
-
-    container.appendChild(card);
-  });
-}
-
-addBookToLibrary("1984", "George Orwell", 328, false);
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, true);
-
-renderBooks();
