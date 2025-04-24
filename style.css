@@ -32,6 +32,7 @@ h1 {
   border-radius: 20px;
   padding: 15px;
   box-shadow: 0px 0px 10px #000000;
+  cursor: pointer;
 }
 
 .library-container {
@@ -67,6 +68,7 @@ h3 {
   text-transform: uppercase;
   font-weight: bold;
   margin-top: 8px;
+  cursor: pointer;
 }
 
 dialog {
@@ -91,6 +93,7 @@ form button {
   padding: 10px;
   font-weight: 600;
   font-size: large;
+  cursor: pointer;
 }
 
 input {

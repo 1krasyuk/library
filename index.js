@@ -1,9 +1,3 @@
-const addBtn = document.querySelector(".add-btn");
-const container = document.querySelector(".library-container");
-const dialog = document.querySelector("dialog");
-const form = document.querySelector("form");
-const cancelBtn = document.querySelector(".cancel-btn");
-
 class Book {
   constructor(title, author, pages, read) {
     this.title = title;
@@ -72,13 +66,13 @@ const myLibrary = new Library();
 myLibrary.addBook("1984", "George Orwell", 328, false);
 myLibrary.addBook("The Hobbit", "J.R.R. Tolkien", 295, true);
 
-addBtn.addEventListener("click", () => {
-  dialog.showModal();
+document.querySelector(".add-btn").addEventListener("click", () => {
+  document.querySelector("dialog").showModal();
 });
 
-cancelBtn.addEventListener("click", (e) => {
+document.querySelector(".cancel-btn").addEventListener("click", (e) => {
   e.preventDefault();
-  dialog.close();
+  document.querySelector("dialog").close();
 });
 
 document.querySelector(".submit-btn").addEventListener("click", (e) => {
@@ -93,8 +87,8 @@ document.querySelector(".submit-btn").addEventListener("click", (e) => {
     myLibrary.addBook(title, author, pages, read);
     myLibrary.renderBooks();
 
-    form.reset();
-    dialog.close();
+    document.querySelector("form").reset();
+    document.querySelector("dialog").close();
   } else {
     alert("Заполните все поля");
   }
